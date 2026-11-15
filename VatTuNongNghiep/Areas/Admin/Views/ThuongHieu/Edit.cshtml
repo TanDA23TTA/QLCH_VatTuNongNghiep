@@ -1,0 +1,23 @@
+@model ThuongHieuVM
+@{
+    ViewData["Title"] = "Sửa thương hiệu";
+}
+
+<div class="row">
+    <div class="col-12 col-lg-8 col-xl-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white fw-semibold">Sửa thương hiệu</div>
+            <div class="card-body">
+                <form asp-action="Edit" asp-route-id="@Model.Mathuonghieu" method="post">
+                    <partial name="_Form" model="Model" />
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Quay lại</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

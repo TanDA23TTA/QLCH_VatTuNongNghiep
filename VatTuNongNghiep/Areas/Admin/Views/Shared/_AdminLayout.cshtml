@@ -1,0 +1,66 @@
+@{
+    // Tô sáng mục menu ứng với controller hiện tại
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    string Active(string ten) => controller == ten ? "active" : "";
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Quản trị</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="admin-khung">
+        <!-- ===== Thanh menu bên trái ===== -->
+        <aside class="admin-sidebar">
+            <a class="admin-logo" asp-area="Admin" asp-controller="Home" asp-action="Index">🌱 QUẢN TRỊ</a>
+
+            <nav class="nav flex-column">
+                <a class="nav-link @Active("Home")" asp-area="Admin" asp-controller="Home" asp-action="Index">Tổng quan</a>
+
+                <div class="admin-nhom-menu">Danh mục</div>
+                <a class="nav-link @Active("NhomSanPham")" asp-area="Admin" asp-controller="NhomSanPham" asp-action="Index">Nhóm sản phẩm</a>
+                <a class="nav-link @Active("ThuongHieu")" asp-area="Admin" asp-controller="ThuongHieu" asp-action="Index">Thương hiệu</a>
+                <a class="nav-link @Active("ThanhPhan")" asp-area="Admin" asp-controller="ThanhPhan" asp-action="Index">Thành phần</a>
+                <a class="nav-link @Active("CongDung")" asp-area="Admin" asp-controller="CongDung" asp-action="Index">Công dụng</a>
+
+                <!-- Các chức năng của tiến độ sau: hiển thị mờ -->
+                <div class="admin-nhom-menu">Sắp có</div>
+                <span class="nav-link disabled">Sản phẩm <small>(TĐ3)</small></span>
+                <span class="nav-link disabled">Nhóm cây trồng <small>(TĐ3)</small></span>
+                <span class="nav-link disabled">Đơn hàng <small>(TĐ4)</small></span>
+                <span class="nav-link disabled">Báo cáo doanh thu <small>(TĐ4)</small></span>
+            </nav>
+        </aside>
+
+        <!-- ===== Phần nội dung bên phải ===== -->
+        <div class="admin-noidung">
+            <header class="admin-topbar">
+                <span class="fw-semibold">@ViewData["Title"]</span>
+                <div class="d-flex align-items-center gap-3">
+                    <a class="small" asp-area="" asp-controller="Home" asp-action="Index" target="_blank">Xem trang người dùng ↗</a>
+                    <!-- Tài khoản đang đăng nhập + nút Đăng xuất -->
+                    <span class="small">👤 <strong>@User.Identity?.Name</strong></span>
+                    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Đăng xuất</button>
+                    </form>
+                </div>
+            </header>
+
+            <main class="p-3 p-md-4">
+                <partial name="_ThongBao" />
+                @RenderBody()
+            </main>
+
+            <footer class="admin-footer">&copy; 2026 – Hệ thống quản lý cửa hàng vật tư nông nghiệp</footer>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

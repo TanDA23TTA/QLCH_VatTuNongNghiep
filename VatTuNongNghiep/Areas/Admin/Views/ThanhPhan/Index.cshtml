@@ -1,0 +1,100 @@
+@model List<ThanhPhanVM>
+@using VatTuNongNghiep.Helpers
+@{
+    ViewData["Title"] = "Thành phần";
+    var phanTrang = (PhanTrangVM)ViewBag.PhanTrang;
+    var loaiDangLoc = ViewBag.Loai as string;
+    int stt = phanTrang.ViTriBatDau;
+    bool dangLoc = !string.IsNullOrEmpty(phanTrang.TuKhoa) || !string.IsNullOrEmpty(loaiDangLoc);
+
+    // Màu nhãn theo loại thành phần
+    string MauLoai(string loai) => loai switch
+    {
+        "Đa lượng" => "text-bg-success",
+        "Trung lượng" => "text-bg-info",
+        "Vi lượng" => "text-bg-warning",
+        "Hữu cơ" => "text-bg-secondary",
+        _ => "text-bg-light border"
+    };
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <h1 class="h4 mb-0">Danh sách thành phần</h1>
+    <a asp-action="Create" class="btn btn-success">+ Thêm thành phần</a>
+</div>
+
+<!-- Ô tìm kiếm + lọc theo loại -->
+<form asp-action="Index" method="get" class="row g-2 mb-3" role="search">
+    <div class="col-12 col-sm">
+        <input type="search" name="tuKhoa" value="@phanTrang.TuKhoa" class="form-control"
+               placeholder="Nhập tên hoặc mã thành phần (gõ không dấu cũng được)…" aria-label="Từ khóa tìm kiếm" />
+    </div>
+    <div class="col-12 col-sm-auto">
+        <select name="loai" class="form-select" aria-label="Lọc theo loại">
+            <option value="">-- Tất cả loại --</option>
+            @foreach (var l in LoaiThanhPhan.DanhSach)
+            {
+                <option value="@l" selected="@(l == loaiDangLoc)">@l</option>
+            }
+        </select>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Tìm</button>
+        @if (dangLoc)
+        {
+            <a asp-action="Index" class="btn btn-outline-secondary">Xóa lọc</a>
+        }
+    </div>
+</form>
+
+@if (dangLoc)
+{
+    <p class="text-muted small">Tìm thấy <strong>@phanTrang.TongSo</strong> thành phần phù hợp.</p>
+}
+
+<div class="card shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th class="text-center" style="width:60px">STT</th>
+                    <th style="width:100px">Mã</th>
+                    <th>Tên thành phần</th>
+                    <th style="width:120px">Đơn vị</th>
+                    <th style="width:140px">Loại</th>
+                    <th class="text-center" style="width:90px">Số SP</th>
+                    <th class="text-end" style="width:140px">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4">
+                            @(dangLoc ? "Không tìm thấy thành phần phù hợp." : "Chưa có thành phần nào.")
+                        </td>
+                    </tr>
+                }
+                @foreach (var tp in Model)
+                {
+                    <tr>
+                        <td class="text-center">@(++stt)</td>
+                        <td><code>@tp.Mathanhphan</code></td>
+                        <td class="fw-semibold">@tp.TenThanhPhan</td>
+                        <td>@tp.DonViHamLuong</td>
+                        <td><span class="badge @MauLoai(tp.LoaiThanhPhan)">@tp.LoaiThanhPhan</span></td>
+                        <td class="text-center">@tp.SoSanPham</td>
+                        <td class="text-end text-nowrap">
+                            <a asp-action="Edit" asp-route-id="@tp.Mathanhphan" class="btn btn-sm btn-outline-primary">Sửa</a>
+                            <a asp-action="Delete" asp-route-id="@tp.Mathanhphan" class="btn btn-sm btn-outline-danger">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <span class="small text-muted">Tổng: @phanTrang.TongSo thành phần</span>
+        <partial name="_PhanTrang" model="phanTrang" />
+    </div>
+</div>

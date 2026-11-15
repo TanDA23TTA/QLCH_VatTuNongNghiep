@@ -1,0 +1,73 @@
+﻿@{
+    // Lấy tên controller hiện tại để tô sáng menu đang chọn
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    string Active(string ten) => controller == ten ? "active" : "";
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Vật Tư Nông Nghiệp</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/VatTuNongNghiep.styles.css" asp-append-version="true" />
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <header>
+        <!-- Thanh điều hướng phía người dùng -->
+        <nav class="navbar navbar-expand-md navbar-dark nav-nguoidung shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
+                    🌱 Vật Tư Nông Nghiệp
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNguoiDung"
+                        aria-controls="menuNguoiDung" aria-expanded="false" aria-label="Mở menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="menuNguoiDung">
+                    <!-- Menu chính -->
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link @Active("Home")" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
+                        </li>
+                        <li class="nav-item">
+                            <span class="nav-link disabled" title="Làm ở Tiến độ 3">Sản phẩm</span>
+                        </li>
+                        <li class="nav-item">
+                            <span class="nav-link disabled" title="Làm ở Tiến độ 3">Giỏ hàng</span>
+                        </li>
+                    </ul>
+                    <!-- Menu tài khoản: thay đổi theo trạng thái đăng nhập -->
+                    <partial name="_DangNhapPartial" />
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main" class="container py-4 flex-grow-1">
+        @if (TempData["ThongBao"] is string thongBao)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @thongBao
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
+            </div>
+        }
+        @RenderBody()
+    </main>
+
+    <footer class="footer-nguoidung mt-auto py-3">
+        <div class="container d-flex flex-column flex-md-row justify-content-between gap-1">
+            <span>&copy; 2026 – Cửa hàng Vật Tư Nông Nghiệp – Chuyên phân bón cây trồng</span>
+            <span>Đồ án chuyên ngành – Đại học Trà Vinh</span>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

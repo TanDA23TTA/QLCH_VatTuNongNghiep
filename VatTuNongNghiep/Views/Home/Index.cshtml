@@ -1,0 +1,33 @@
+﻿@model List<Nhomsanpham>
+@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<!-- Banner giới thiệu -->
+<section class="banner-trangchu p-4 p-md-5 mb-4">
+    <h1 class="fw-bold">Phân bón chính hãng cho mọi loại cây trồng</h1>
+    <p class="lead mb-0">Đạm, lân, kali, NPK, hữu cơ, vi sinh… từ các thương hiệu uy tín, kèm hướng dẫn bón theo từng loại cây.</p>
+</section>
+
+<!-- Danh sách nhóm sản phẩm (đọc từ bảng NHOMSANPHAM) -->
+<h2 class="h4 mb-3">Nhóm sản phẩm</h2>
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Chưa có nhóm sản phẩm nào.</div>
+}
+else
+{
+    <div class="row g-3">
+        @foreach (var nhom in Model)
+        {
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card h-100 shadow-sm the-nhom">
+                    <div class="card-body">
+                        <h3 class="h6 card-title fw-bold">@nhom.Tennhom</h3>
+                        <p class="card-text small text-muted mb-0">@nhom.Mota</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

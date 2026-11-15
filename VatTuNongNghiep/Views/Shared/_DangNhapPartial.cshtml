@@ -1,0 +1,31 @@
+@using VatTuNongNghiep.Helpers
+@* Phần menu tài khoản trên thanh điều hướng người dùng *@
+<ul class="navbar-nav align-items-md-center">
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        @if (User.IsInRole(VaiTro.Admin))
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">Quản trị</a>
+            </li>
+        }
+        <li class="nav-item">
+            <span class="nav-link text-white">Xin chào, <strong>@User.FindFirst("HoTen")?.Value</strong></span>
+        </li>
+        <li class="nav-item">
+            <!-- Đăng xuất dùng POST + chống giả mạo (AntiForgery) -->
+            <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                <button type="submit" class="btn btn-outline-light btn-sm ms-md-2 mt-1 mt-md-0">Đăng xuất</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Đăng nhập</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-light btn-sm ms-md-2 mt-1 mt-md-0" asp-area="" asp-controller="Account" asp-action="Register">Đăng ký</a>
+        </li>
+    }
+</ul>

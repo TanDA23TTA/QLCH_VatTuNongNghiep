@@ -1,0 +1,74 @@
+@model VatTuNongNghiep.Models.ViewModels.DangKyVM
+@{
+    ViewData["Title"] = "Đăng ký";
+}
+
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h1 class="h4 mb-1 text-center">Đăng ký tài khoản khách hàng</h1>
+                <p class="text-center text-muted small mb-4">Các ô có dấu <span class="text-danger">*</span> là bắt buộc</p>
+
+                <form asp-action="Register" method="post">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2" role="alert"></div>
+
+                    <!-- Thông tin tài khoản → bảng TAIKHOAN -->
+                    <h2 class="h6 text-success border-bottom pb-1">Thông tin tài khoản</h2>
+                    <div class="row g-3 mb-4">
+                        <div class="col-12">
+                            <label asp-for="TenDangNhap" class="form-label"></label> <span class="text-danger">*</span>
+                            <input asp-for="TenDangNhap" class="form-control" autocomplete="username" />
+                            <span asp-validation-for="TenDangNhap" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="MatKhau" class="form-label"></label> <span class="text-danger">*</span>
+                            <input asp-for="MatKhau" class="form-control" autocomplete="new-password" />
+                            <span asp-validation-for="MatKhau" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="XacNhanMatKhau" class="form-label"></label> <span class="text-danger">*</span>
+                            <input asp-for="XacNhanMatKhau" class="form-control" autocomplete="new-password" />
+                            <span asp-validation-for="XacNhanMatKhau" class="text-danger small"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" type="email" autocomplete="email" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <!-- Thông tin cá nhân → bảng KHACHHANG -->
+                    <h2 class="h6 text-success border-bottom pb-1">Thông tin khách hàng</h2>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label asp-for="HoTen" class="form-label"></label> <span class="text-danger">*</span>
+                            <input asp-for="HoTen" class="form-control" autocomplete="name" />
+                            <span asp-validation-for="HoTen" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="SoDienThoai" class="form-label"></label> <span class="text-danger">*</span>
+                            <input asp-for="SoDienThoai" class="form-control" type="tel" autocomplete="tel" />
+                            <span asp-validation-for="SoDienThoai" class="text-danger small"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="DiaChi" class="form-label"></label>
+                            <input asp-for="DiaChi" class="form-control" autocomplete="street-address" />
+                            <span asp-validation-for="DiaChi" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100">Đăng ký</button>
+                </form>
+
+                <p class="text-center mt-3 mb-0 small">
+                    Đã có tài khoản? <a asp-action="Login">Đăng nhập</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

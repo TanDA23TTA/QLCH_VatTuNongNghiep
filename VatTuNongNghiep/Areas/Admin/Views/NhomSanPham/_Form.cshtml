@@ -1,0 +1,22 @@
+@model NhomSanPhamVM
+@* Các ô nhập dùng chung cho trang Thêm và Sửa *@
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger py-2" role="alert"></div>
+
+<div class="mb-3">
+    <label asp-for="Manhom" class="form-label"></label>
+    <input asp-for="Manhom" class="form-control-plaintext fw-bold" readonly />
+    <div class="form-text">Mã do hệ thống tự sinh, không sửa được.</div>
+</div>
+
+<div class="mb-3">
+    <label asp-for="TenNhom" class="form-label"></label> <span class="text-danger">*</span>
+    <input asp-for="TenNhom" class="form-control" maxlength="50" autofocus />
+    <span asp-validation-for="TenNhom" class="text-danger small"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="MoTa" class="form-label"></label>
+    <textarea asp-for="MoTa" class="form-control" rows="3" maxlength="200"></textarea>
+    <span asp-validation-for="MoTa" class="text-danger small"></span>
+</div>

@@ -1,0 +1,43 @@
+@model ThanhPhanVM
+@using VatTuNongNghiep.Helpers
+@* Các ô nhập dùng chung cho trang Thêm và Sửa *@
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger py-2" role="alert"></div>
+
+<div class="mb-3">
+    <label asp-for="Mathanhphan" class="form-label"></label>
+    <input asp-for="Mathanhphan" class="form-control-plaintext fw-bold" readonly />
+    <div class="form-text">Mã do hệ thống tự sinh, không sửa được.</div>
+</div>
+
+<div class="mb-3">
+    <label asp-for="TenThanhPhan" class="form-label"></label> <span class="text-danger">*</span>
+    <input asp-for="TenThanhPhan" class="form-control" maxlength="50" placeholder="Ví dụ: Lưu huỳnh (S)" autofocus />
+    <span asp-validation-for="TenThanhPhan" class="text-danger small"></span>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-sm-6">
+        <label asp-for="LoaiThanhPhan" class="form-label"></label> <span class="text-danger">*</span>
+        <select asp-for="LoaiThanhPhan" class="form-select">
+            <option value="">-- Chọn loại --</option>
+            @foreach (var l in LoaiThanhPhan.DanhSach)
+            {
+                <option value="@l">@l</option>
+            }
+        </select>
+        <span asp-validation-for="LoaiThanhPhan" class="text-danger small"></span>
+    </div>
+    <div class="col-sm-6">
+        <label asp-for="DonViHamLuong" class="form-label"></label>
+        <!-- datalist: gợi ý sẵn nhưng vẫn cho gõ đơn vị khác -->
+        <input asp-for="DonViHamLuong" class="form-control" maxlength="10" list="dsDonVi" />
+        <datalist id="dsDonVi">
+            @foreach (var dv in DonViHamLuong.GoiY)
+            {
+                <option value="@dv"></option>
+            }
+        </datalist>
+        <span asp-validation-for="DonViHamLuong" class="text-danger small"></span>
+    </div>
+</div>
